@@ -1,0 +1,5 @@
+faiss-cpu
+chromadb
+google-generativeai
+pypdf
+pdfplumber
