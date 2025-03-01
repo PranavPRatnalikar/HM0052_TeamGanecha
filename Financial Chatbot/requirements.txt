@@ -1,5 +1,8 @@
+streamlit
+langchain
 faiss-cpu
 chromadb
 google-generativeai
 pypdf
 pdfplumber
+tiktoken
