@@ -4,7 +4,18 @@ export interface User {
   name: string
   email?: string
   phone?: string
-  avatar?: string
+  password: string
+  permissions: {
+    smsAccess: boolean
+    bankAccountLinking: boolean
+    cameraAccess: boolean
+  }
+  verified?: boolean
+}
+
+export interface AuthToken {
+  token: string
+  expiresAt: Date
 }
 
 // Transaction related interfaces
@@ -21,22 +32,35 @@ export interface Transaction {
 // Account related interfaces
 export interface Account {
   id: string
-  name: string
-  type: "checking" | "savings" | "investment" | "cash" | "credit"
+  userId: string
   balance: number
-  currency: string
+  type: "bank" | "investment" | "cash"
 }
 
-// Dashboard widget interfaces
-export interface NetWorthData {
-  total: number
-  change: number
-  changePercent: number
+// API request/response interfaces
+export interface SignUpRequest {
+  name: string
+  email?: string
+  phone?: string
+  password: string
 }
 
-export interface SpendingData {
-  date: string
-  amount: number
+export interface LoginRequest {
+  email?: string
+  phone?: string
+  password: string
+}
+
+export interface VerifyOTPRequest {
+  email?: string
+  phone?: string
+  otp: string
+}
+
+export interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  error?: string
 }
 
 export interface CategorySpending {
@@ -45,52 +69,59 @@ export interface CategorySpending {
   percent: number
 }
 
-// Insight interfaces
+// New interfaces for insights and calculations
 export interface Insight {
   id: string
-  title: string
-  description: string
-  type: "warning" | "info" | "danger" | "success"
-}
-
-export interface Anomaly {
-  id: string
-  title: string
+  userId: string
+  type: "spending_average" | "anomaly"
   description: string
   date: string
 }
 
-// Calculator interfaces
-export interface RetirementInput {
-  currentAge: number
-  retirementAge: number
-  currentSavings: number
-  monthlySavings: number
-  expectedReturn: number
-  inflationRate: number
-}
-
-export interface LoanInput {
-  loanAmount: number
-  interestRate: number
-  loanTerm: number
-}
-
-export interface InflationInput {
-  currentAmount: number
-  inflationRate: number
-  years: number
-}
-
-// Chatbot interfaces
-export interface ChatMessage {
+export interface Calculation {
   id: string
-  content: string
-  sender: "user" | "bot"
-  timestamp: Date
-  chart?: {
-    type: "bar" | "line" | "pie"
-    data: any
-  }
+  userId: string
+  type:
+    | "retirement"
+    | "exchange_rate"
+    | "financial_freedom"
+    | "home_affordability"
+    | "loan"
+    | "compound_interest"
+    | "roi"
+    | "inflation"
+  inputs: Record<string, any>
+  result: Record<string, any>
+  date: string
+}
+
+export interface ChatbotQuery {
+  userId: string
+  query: string
+  response: string
+  date: string
+}
+
+// API request/response interfaces for new endpoints
+export interface CategorizeTransactionRequest {
+  transactionId: string
+  category: string
+}
+
+export interface ChatbotQueryRequest {
+  query: string
+}
+
+export interface CalculatorRequest {
+  type:
+    | "retirement"
+    | "exchange_rate"
+    | "financial_freedom"
+    | "home_affordability"
+    | "loan"
+    | "compound_interest"
+    | "roi"
+    | "inflation"
+  inputs: Record<string, any>
 }
 
